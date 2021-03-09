@@ -1,0 +1,259 @@
+{
+	"status": 200,
+	"data": {
+		"perms": [{
+			"perm": ["employee_revoke", "apply_employee_find_all", "emplyoee_apply_add"],
+			"frontRouting": "/work/EmployeeApply"
+		}, {
+			"perm": ["mine_company", "mine_employee"],
+			"frontRouting": "/approvalRecording/MineRecording"
+		}, {
+			"perm": ["employee_apply_find"],
+			"frontRouting": "/approvalRecording/EmployeeRecording"
+		}, {
+			"perm": ["account_role", "account_delete", "account_modify", "account_add", "account_find"],
+			"frontRouting": "/sysmgr/AccountManage"
+		}, {
+			"perm": ["approve_employee", "approve_company", "find_wait_company"],
+			"frontRouting": "/matter/CompanyPending"
+		}, {
+			"perm": ["company_apply_find"],
+			"frontRouting": "/approvalRecording/CompanyRecording"
+		}, {
+			"perm": ["tem_find"],
+			"frontRouting": "/parkRecording/TemperatureRecording"
+		}, {
+			"perm": ["visitors_export", "viditors_find", "visitors_add"],
+			"frontRouting": "/parkRecording/VisitorsRecording"
+		}, {
+			"perm": ["find_wait_employee"],
+			"frontRouting": "/matter/EmployeePending"
+		}, {
+			"perm": ["room_find", "company_modify", "company_find", "room_add", "room_delete", "company_add"],
+			"frontRouting": "/basic/Company"
+		}, {
+			"perm": ["inOut_find", "inOut_delete", "inOut_export"],
+			"frontRouting": "/parkRecording/InAndOutRecording"
+		}, {
+			"perm": ["company_revoke", "company_apply_add"],
+			"frontRouting": "/work/CompanyApply"
+		}, {
+			"perm": ["bind_rfid", "employee_find", "employee_export", "employee_add", "employee_modify"],
+			"frontRouting": "/basic/Employee"
+		}, {
+			"perm": ["label_find", "equ_find", "equ_delete", "rfid_delete", "rfid_add", "rfid_find", "equ_modify", "label_delete", "label_add", "equ_add"],
+			"frontRouting": "/basic/CardReaderAndCard"
+		}, {
+			"perm": ["inOut_number", "dashboard"],
+			"frontRouting": "/home/Dashboard"
+		}, {
+			"perm": ["role_check", "role_find", "role_delete", "role_add", "role_modify"],
+			"frontRouting": "/sysmgr/RoleManage"
+		}, {
+			"perm": ["alarm_update", "alarm_find"],
+			"frontRouting": "/alert/TemperatureAlert"
+		}],
+		"menus": [{
+			"menuIcon": "icon-daiban",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "b5049bcc611c4014874ce339e5636f8f",
+				"menuId": "494a1257e9fb4bae896eef772db0fbcd",
+				"menuName": "基础信息",
+				"frontRouting": "/enterpriseInfo/basicInfo"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "b5049bcc611c4014874ce339e5636f8f",
+				"menuId": "ce608feeac334801a2613b5de2b1cfd3",
+				"menuName": "资质档案",
+				"frontRouting": "/enterpriseInfo/qualificationFile"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 3,
+				"menuPid": "b5049bcc611c4014874ce339e5636f8f",
+				"menuId": "ce608feeac334801a2613b5de2b1cf12",
+				"menuName": "组织机构",
+				"frontRouting": "/enterpriseInfo/organization"
+			}],
+			"sortIndex": 1,
+			"menuPid": "-1",
+			"menuId": "b5049bcc611c4014874ce339e5636f8f",
+			"menuName": "企业信息",
+			"frontRouting": null
+		}, {
+			"menuIcon": "icon-fugongjilu",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "8747b613181a4ff1b3eb1d1ea34eec0b",
+				"menuId": "a1fd71b569ab49dba3b3743155964523",
+				"menuName": "建筑购物",
+				"frontRouting": "/identification/building"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "8747b613181a4ff1b3eb1d1ea34eec0b",
+				"menuId": "b5a448ff5c96491896491208d00a5032",
+				"menuName": "设备设施",
+				"frontRouting": "/identification/equipment"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 3,
+				"menuPid": "8747b613181a4ff1b3eb1d1ea34eec0b",
+				"menuId": "777fcf3b33564c98a96040f7b13d420b",
+				"menuName": "作业活动",
+				"frontRouting": "/identification/operational"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 4,
+				"menuPid": "8747b613181a4ff1b3eb1d1ea34eec0b",
+				"menuId": "777fcf3b33564c98a96040f7b13d1325",
+				"menuName": "原辅料",
+				"frontRouting": "/identification/accessories"
+			}],
+			"sortIndex": 2,
+			"menuPid": "-1",
+			"menuId": "8747b613181a4ff1b3eb1d1ea34eec0b",
+			"menuName": "风险辨识",
+			"frontRouting": null
+		}, {
+			"menuIcon": "icon-xinxi1",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "7d3852b4db2346c99e9ceebc6c0a637a",
+				"menuName": "风险点列表",
+				"frontRouting": "/risk/riskPoint"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "84793d33cc9b4fc2ae410be66074f5de",
+				"menuName": "风险管控责任清单",
+				"frontRouting": "/risk/responsibilityList"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 3,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "b682e1c4b5a54210b50da1bc63381b6b",
+				"menuName": "风险管控措施清单",
+				"frontRouting": "/risk/measuresList"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 4,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "68afd2ca772f4cd88909919ec66001f3",
+				"menuName": "风险分布图",
+				"frontRouting": "/risk/riskMap"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 5,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "b682e1c4b5a54210b50da1bc63381111",
+				"menuName": "风险统计图",
+				"frontRouting": "/risk/riskChart"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 6,
+				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
+				"menuId": "68afd2ca772f4cd88909919ec6600112",
+				"menuName": "风险防控手册",
+				"frontRouting": "/risk/riskBook"
+			}],
+			"sortIndex": 3,
+			"menuPid": "-1",
+			"menuId": "72a098cfd218491e8a7d77fcb6875c2a",
+			"menuName": "风险管控",
+			"frontRouting": null
+		}, {
+			"menuIcon": "icon-jilu",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "4c353593a76d4537b0a178d6397e1f1f",
+				"menuId": "e5f7ee51633b4b009924abe233d3cc2e",
+				"menuName": "隐患排查清单",
+				"frontRouting": "/danger/dangerChecklist"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "4c353593a76d4537b0a178d6397e1f1f",
+				"menuId": "edb5a574cc9c462d819f9d95815b4962",
+				"menuName": "检查表",
+				"frontRouting": "/danger/checklist"
+			}],
+			"sortIndex": 4,
+			"menuPid": "-1",
+			"menuId": "4c353593a76d4537b0a178d6397e1f1f",
+			"menuName": "隐患管理",
+			"frontRouting": null
+		},  {
+			"menuIcon": "icon-fugongjilu",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "bc06fe5769fe48adb3c2fb2728c3cbc0",
+				"menuId": "50f7b1d6d92144d490d2ad5ea3ff4350",
+				"menuName": "法律法规",
+				"frontRouting": "/laws/law"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "bc06fe5769fe48adb3c2fb2728c3cbc0",
+				"menuId": "00538fe340a9437cad0304fc659852ee",
+				"menuName": "政策文件",
+				"frontRouting": "/laws/policyFiles"
+			}],
+			"sortIndex": 5,
+			"menuPid": "-1",
+			"menuId": "bc06fe5769fe48adb3c2fb2728c3cbc0",
+			"menuName": "法律法规",
+			"frontRouting": null
+		}, {
+			"menuIcon": "icon-xitongguanli",
+			"children": [{
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 1,
+				"menuPid": "f26ee71b575048f09968621971381bb3",
+				"menuId": "e12c51dcf4b44d45ac46c7af93a890ed",
+				"menuName": "用户管理",
+				"frontRouting": "/sysmgr/AccountManage"
+			}, {
+				"menuIcon": null,
+				"children": null,
+				"sortIndex": 2,
+				"menuPid": "f26ee71b575048f09968621971381bb3",
+				"menuId": "853555aff511496ebbfd1744e0ad7c6a",
+				"menuName": "角色管理",
+				"frontRouting": "/sysmgr/RoleManage"
+			}],
+			"sortIndex": 6,
+			"menuPid": "-1",
+			"menuId": "f26ee71b575048f09968621971381bb3",
+			"menuName": "系统管理",
+			"frontRouting": null
+		}]
+	}
+	
+}

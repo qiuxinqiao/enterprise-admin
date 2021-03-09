@@ -1,0 +1,15 @@
+{
+    "status": 200,
+    "data": {
+        "account": "admin",
+        "accountId": "51133bf4e91f4a11abc163727657d968",
+        "contacts": "一体物联",
+        "email": "2019-07-24 09:24:17",
+        "extension": "{}",
+        "nick": "admin",
+        "phone": "17749013799",
+        "roles": [],
+        "superadmin": true,
+        "valid": true
+    }
+}
