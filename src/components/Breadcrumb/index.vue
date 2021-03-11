@@ -51,7 +51,7 @@ export default {
     display: inline-block;
     font-size: 13px;
     line-height: 40px;
-    margin-left: 240px;
+    margin-left: 215px;
     outline: none;
     .no-redirect {
       color: #97a8be;

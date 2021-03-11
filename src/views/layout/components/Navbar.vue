@@ -366,7 +366,7 @@ export default {
 			height: 80px;
 			line-height: 80px;
 			border-radius: 0px !important;
-			position: fixed;
+			position: absolute;
 			top: 0;
 			right: 0;
 			z-index: 1001;

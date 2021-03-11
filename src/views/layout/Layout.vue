@@ -44,6 +44,6 @@
     padding-left: 30px
   }
     .hideSidebar .navbar{
-    padding-left: 30px
+    padding-left: 45px
   }
 </style>

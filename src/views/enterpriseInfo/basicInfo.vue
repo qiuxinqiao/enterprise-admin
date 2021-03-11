@@ -250,8 +250,8 @@ export default {
   },
   mounted() {
     var vm = this;
-    vm.getPerm();
-    vm.getList();
+    // vm.getPerm();
+    // vm.getList();
     vm.$nextTick(function () {
       utils.getTableHeight((height) => {
         this.height = height;

@@ -32,7 +32,7 @@ export default {
   height: 80px;
   line-height: 80px;
   border-radius: 0px !important;
-  padding-left: 230px;
+  padding-left: 210px;
   display: inline-block;
   width: 100%;
   .breadcrumb-container{

@@ -50,10 +50,9 @@ export default {
     div{
 		width: 70%;
 		margin: 0 auto;
-		padding: 10px;
-			img{
+		img{
         transition: 0.28s;
-        height: 60px;
+        margin-top: 21px;
 			}
     }
     p{

@@ -3,12 +3,12 @@
     .main-container {
         // min-height: 100%;
         transition: margin-left 0.28s;
-        margin-left: 220px;
-        padding: 10px 15px 0 15px;
+        margin-left: 200px;
+        padding: 0 15px 15px 15px;
     } // 侧边栏
     .sidebar-container {
         transition: width 0.28s;
-        width: 220px !important;
+        width: 200px !important;
         height: 100%;
         position: fixed;
         // top: 50px;
@@ -73,7 +73,7 @@
         }
         .el-submenu {
             &>.el-submenu__title {
-                padding-left: 3px!important;
+                padding-left: 10px !important;
                 &>span.first-menu {
                     display: none;
                 }

@@ -131,9 +131,9 @@
 		    };
 			return {
 				loginForm: {
-					account: '',
-					password: '',
-					identifyCode: '',
+					account: 'amdin',
+					password: 'et123456',
+					identifyCode: '1234',
 					imgSrc: "#",//动态获取验证码
 					checked: true
 				},
