@@ -52,7 +52,8 @@ export default {
 		margin: 0 auto;
 		img{
         transition: 0.28s;
-        margin-top: 21px;
+        height: 60px;
+        margin-top: 10px;
 			}
     }
     p{

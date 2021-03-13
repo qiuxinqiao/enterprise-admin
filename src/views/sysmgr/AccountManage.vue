@@ -380,7 +380,7 @@
 
 				list: null, //表格list
 				total: 0,
-				listLoading: true,
+				listLoading: false,
 				height: 540,
 
 				//列表查询参数
@@ -497,10 +497,10 @@
 			utils.getTableHeight((height)=>{
 				this.height = height;
 			});
-			vm.getAllCompany();
-			vm.getAccountType();
-			vm.getPerm();
-			vm.getList();
+			// vm.getAllCompany();
+			// vm.getAccountType();
+			// vm.getPerm();
+			// vm.getList();
 		},
 		//实例销毁之间调用。在这一步，实例仍然完全可用。   时间定时器
 		beforeDestroy(){

@@ -10,9 +10,8 @@
     <div class="title_box_gd">
       <div class="title">资质档案</div>
       <div class="right">
-        <el-button type="primary">添 加</el-button>
+        <el-button type="primary"   @click="dataFilesDialog = true">添 加</el-button>
         <el-button type="danger">删 除</el-button>
-
       </div>
     </div>
 
@@ -24,48 +23,47 @@
       highlight-current-row
       v-loading="listLoading"
       element-loading-text="拼命加载中"
-	   @selection-change="handleSelectionChange"
+      @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" align="center" width="55"> </el-table-column>
-	   <el-table-column
-      type="index"
-	  align="center"
-	  label="序号"
-	   width="80"
-      :index="indexMethod">
-    </el-table-column>
-      
+      <el-table-column type="selection" align="center" width="55">
+      </el-table-column>
+      <el-table-column
+        type="index"
+        align="center"
+        label="序号"
+        width="80"
+        :index="indexMethod"
+      >
+      </el-table-column>
+
       <el-table-column
         align="center"
         label="资料档案"
         prop="dataFiles"
       ></el-table-column>
-	  <el-table-column
+      <el-table-column align="center" label="备注信息" prop="Remarks">
+      </el-table-column>
+      <el-table-column
+        prop="wxinfo"
+        label="资质图片"
+        width="200"
         align="center"
-        label="备注信息"
-        prop="Remarks"
+        :show-overflow-tooltip="true"
       >
-	  
-	  </el-table-column>
-	  <el-table-column prop="wxinfo" label="资质图片" width="200" align="center" :show-overflow-tooltip="true">
-	<template slot-scope="scope">
-		<img :src="item.url" v-for="(item,index) in scope.row.commentUrl" height="90%" class="touxiang"/>
-	</template>
-</el-table-column>
- <el-table-column
+        <template slot-scope="scope">
+          <img :src="item.url" v-for="(item, index) in scope.row.commentUrl" :key="index" height="90%" class="touxiang" />
+        </template>
+      </el-table-column>
+      <el-table-column
         align="center"
         label="更新时间"
         prop="updateTime"
       ></el-table-column>
-	 <el-table-column
-	 align="center"
-      label="操作"
-      width="120">
-      <template slot-scope="scope">
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
-    </el-table-column>
-     
+      <el-table-column align="center" label="操作" width="120">
+        <template slot-scope="scope">
+          <el-button type="text" size="small">编辑</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!-- 分页 -->
@@ -74,6 +72,55 @@
       :total="total"
       @reLoadData="paginationChange"
     ></pagination>
+    <!-- 添加资质档案 开始 -->
+    <el-dialog
+      title="添加资质档案"
+      :visible.sync="dataFilesDialog"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <el-form :model="form" label-position="top">
+        <el-form-item label="名称">
+          <el-input
+            v-model="form.name"
+            autocomplete="off"
+            class="form_input_w"
+            placeholder="请输入名称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="备注信息">
+          <el-input
+            v-model="form.remarks"
+            type="textarea"
+            autocomplete="off"
+            class="form_input_w"
+            placeholder="请输入备注信息"
+          ></el-input>
+        </el-form-item>
+        <div class="form_container">
+			<div class="label_title">厂区平面图</div>
+         <el-upload
+			action="https://jsonplaceholder.typicode.com/posts/"
+			list-type="picture-card"
+			:on-preview="handlePictureCardPreview"
+			:on-remove="handleRemove">
+			<i class="el-icon-circle-plus-outline"></i><span>点击上传</span>
+			</el-upload>
+			<el-dialog :visible.sync="dialogVisible">
+			<img width="100%" :src="form.dialogImageUrl" alt="">
+			</el-dialog>
+          <p>文件扩展名.png ,jpg...图片大小不得超过2M</p>
+          
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dataFilesDialog = false">取 消</el-button>
+        <el-button type="primary" @click="dataFilesDialog = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 添加资质档案 结束 -->
   </div>
 </template>
 <script>
@@ -89,190 +136,211 @@ export default {
   },
   data() {
     return {
+      dataFilesDialog: false,
       permBtn: {
         alarm_find: false,
       },
       height: 640,
       list: [
-		  {
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
-        }, {
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
-        }, {
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
-        }, {
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
         },
-		{
-			dataFiles: '石油化工工程施工总承包一级资质',
-			Remarks: '1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3',
-			picture: '上海市普陀区金沙江路 1518 弄',
-			
-			commentUrl:[
-				{
-				url: '../../assets/img/none.png',
-			},
-			{
-				url: '../../assets/img/none.png',
-			}
-			],
-			updateTime:'2020-09-11 14:20:21',
-        }
-	  ], //表格list
-      total: 0,
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
+        },
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
+        },
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
+        },
+        {
+          dataFiles: "石油化工工程施工总承包一级资质",
+          Remarks:
+            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
+          picture: "上海市普陀区金沙江路 1518 弄",
+
+          commentUrl: [
+            {
+              url: "../../assets/img/none.png",
+            },
+            {
+              url: "../../assets/img/none.png",
+            },
+          ],
+          updateTime: "2020-09-11 14:20:21",
+        },
+      ], //表格list
+      form: {
+        name: "",
+        remarks:'',
+        dialogImageUrl:'',
+      },
+      total: 20,
       listLoading: false,
       //列表查询参数
       listQuery: {
@@ -287,7 +355,7 @@ export default {
   mounted() {
     var vm = this;
     vm.getPerm();
-    vm.getList();
+    // vm.getList();
     vm.$nextTick(function () {
       utils.getTableHeight((height) => {
         this.height = height;
@@ -295,12 +363,21 @@ export default {
     });
   },
   methods: {
-	  handleSelectionChange(val) {
-        this.multipleSelection = val;
+     //   删除/上传成功方法
+     handleRemove(file, fileList) {
+        console.log(file, fileList);
       },
-	  indexMethod(index) {
-        return index + 1;
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
       },
+      // ==========
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    indexMethod(index) {
+      return index + 1;
+    },
     //获取当前页面的权限
     getPerm() {
       this.permBtn = utils.permsButton(this);
@@ -319,11 +396,11 @@ export default {
       vm.listLoading = true;
       vm.listQuery.fromTime = "";
       vm.listQuery.toTime = "";
-    //   const dateTime = vm.$refs.datePicker.datePicker; //父组件获取子组件数据this.$refs.第一个datePicker是父组件ref值，第二个是子组件model值
-    //   if (dateTime) {
-    //     vm.listQuery.fromTime = dateTime[0] + " 00:00:00";
-    //     vm.listQuery.toTime = dateTime[1] + " 23:59:59";
-    //   }
+      //   const dateTime = vm.$refs.datePicker.datePicker; //父组件获取子组件数据this.$refs.第一个datePicker是父组件ref值，第二个是子组件model值
+      //   if (dateTime) {
+      //     vm.listQuery.fromTime = dateTime[0] + " 00:00:00";
+      //     vm.listQuery.toTime = dateTime[1] + " 23:59:59";
+      //   }
       vm.$instance
         .post("/proxy/alarm/temperature/findList", vm.listQuery)
         .then((res) => {

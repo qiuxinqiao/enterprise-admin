@@ -2,6 +2,7 @@
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     <!-- <breadcrumb class="breadcrumb-container"></breadcrumb> -->
+    <img src="../../../assets/img/logo_title.png">
   </el-menu> 
 </template>
 
@@ -40,7 +41,7 @@ export default {
   }
   .hamburger-container {
     line-height: 80px;
-    height: 40px;
+    height: 80px;
     float: left;
     padding: 0 10px;
     outline: none

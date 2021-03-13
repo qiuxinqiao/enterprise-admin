@@ -161,7 +161,7 @@ export const utils = {
       const h3 = $('.navbar').height();
       const h1 = $('.filter-container').height(); // 搜索栏
       const h2 = 32; // 页码高度
-      callback(h - (h1 || 0) - h2 - (h3 || 0) - 75); // 92主要是所以margin之和
+      callback(h - (h1 || 0) - h2 - (h3 || 0) - 87); // 92主要是所以margin之和
       window.clearTimeout(t1); // 去掉定时器
     }, 1);
   },

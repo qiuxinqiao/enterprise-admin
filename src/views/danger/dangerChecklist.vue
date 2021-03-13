@@ -2,8 +2,8 @@
  * @Author: qiaozp 
  * @Date: 2021-03-07 19:41:56 
  * @Description: 隐患排查清单
- * @Last Modified by: qiaozp
- * @Last Modified time: 2021-03-08 21:19:18
+ * @Last Modified by: guodi
+ * @Last Modified time: 2021年3月10日18:08:03
  */
 <template>
 	<div class="app-container">
@@ -82,7 +82,7 @@
 		mounted () {
 			var vm = this;
 			vm.getPerm();
-			vm.getList();
+			// vm.getList();
 			vm.$nextTick(function(){
 				utils.getTableHeight((height)=>{
 					this.height = height;

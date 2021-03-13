@@ -153,7 +153,7 @@
         </div>
         
         <div class="form_container">
-			<div class="label_title">厂区平面图</div>
+			<div class="label_title">资质图片</div>
          <el-upload
 			action="https://jsonplaceholder.typicode.com/posts/"
 			list-type="picture-card"
@@ -164,7 +164,6 @@
 			<el-dialog :visible.sync="dialogVisible">
 			<img width="100%" :src="form.dialogImageUrl" alt="">
 			</el-dialog>
-          
         </div>
 
         <!-- <el-form-item>
@@ -250,7 +249,7 @@ export default {
   },
   mounted() {
     var vm = this;
-    // vm.getPerm();
+    vm.getPerm();
     // vm.getList();
     vm.$nextTick(function () {
       utils.getTableHeight((height) => {

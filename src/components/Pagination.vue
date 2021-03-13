@@ -74,4 +74,7 @@
     .pagination-container input {
         box-shadow: none;
     }
+    .pagination-container .el-select .el-input {
+        width: 100px;
+    }
 </style>
