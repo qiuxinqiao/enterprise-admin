@@ -109,7 +109,7 @@ const constantRouterMap = [
         name: '风险辨识',
         children: [
             { path: 'building', component: Building, name: '建筑购物' },
-            { path: 'euipment', component: Euipment, name: '设备设施' },
+            { path: 'equipment', component: Euipment, name: '设备设施' },
             { path: 'operational', component: Operational, name: '作业活动' },
             { path: 'accessories', component: Accessories, name: '原辅料' }
         ]
