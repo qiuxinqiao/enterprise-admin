@@ -97,23 +97,7 @@ export default {
                                 }
                             },
                             data:b
-                        },
-                        //                         {
-                        //     name: "未离京人数",
-                        //     type: "line",
-                        //     barWidth: "60%",
-                        //     itemStyle: {
-                        //         normal: {
-                        //             color: "#00af6d",
-                        //             label: {
-                        //                 show: true,
-                        //                 position: 'top',
-                        //                 formatter: '{c}'
-                        //             }
-                        //         }
-                        //     },
-                        //     data: c
-                        // }
+                        }
                     ]
                 });
             });
