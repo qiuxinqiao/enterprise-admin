@@ -3,7 +3,7 @@
  * @Date: 2021-03-07 19:41:56 
  * @Description: 建构筑建
  * @Last Modified by: qiaozp
- * @Last Modified time: 2021-03-07 19:42:30
+ * @Last Modified time: 2021-04-16 16:04:51
  */
 <template>
 	<div class="app-container">
@@ -15,9 +15,6 @@
 				</el-form-item>
 				<el-form-item label="姓名">
 					<el-input v-model="listQuery.name" placeholder="请输入" clearable></el-input>
-				</el-form-item>
-				<el-form-item label="告警开始时间">
-					<date-picker ref="datePicker" :isTodayBefore="true" :isToday="isToday" clearable></date-picker>
 				</el-form-item>
                 <el-button class="filter-item blue-btn" type="primary" icon="iconfont icon-sousuo" @click="(getList(true))">
 					搜索
@@ -47,6 +44,10 @@
 
         <!-- 分页 -->
 		<pagination ref="page" :total="total" @reLoadData="paginationChange"></pagination>
+
+		<el-dialog class="importTemDialog" title="导入设备设施模板" :visible.sync="importTemVisible" :close-on-click-modal="false" :close-on-press-escape="false" top="5%" width="1200px" lock-scroll>
+			<!-- <method-draw></method-draw> -->
+		</el-dialog>
 	</div>	
 </template>
 <script>
@@ -55,10 +56,10 @@
 	import { Message } from 'element-ui';
 	import DatePicker from '../../components/DatePicker';//日期组件
 	import Pagination from '../../components/Pagination';
+	import methodDraw from '../../components/methodDraw'
 	export default {
 		components: {
-			'date-picker':DatePicker,//日期组件
-			'pagination': Pagination,
+			DatePicker, Pagination, methodDraw
 		},
 		data () {
 			return {
@@ -76,13 +77,13 @@
 					companyName: '',
 					name: '',
 				},
-				isToday: false,//是否回显当前日期
+				importTemVisible: true
 			}
 		},
 		mounted () {
 			var vm = this;
 			vm.getPerm();
-			vm.getList();
+			// vm.getList();
 			vm.$nextTick(function(){
 				utils.getTableHeight((height)=>{
 					this.height = height;

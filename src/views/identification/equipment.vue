@@ -3,7 +3,7 @@
  * @Date: 2021-03-07 19:41:56 
  * @Description: 设备设施
  * @Last Modified by: qiaozp
- * @Last Modified time: 2021-03-16 16:29:02
+ * @Last Modified time: 2021-04-16 16:29:58
  */
 <template>
 	<div class="app-container">
@@ -11,9 +11,9 @@
 		<div class="title_box_gd">
 			<div class="title">设备设施</div>
 			<div class="right query">
-				<el-form :inline="true" :model="listQuery" class="demo-form-inline">
+				<el-form :inline="true" :model="listParam" class="demo-form-inline">
 					<el-form-item>
-						<el-input v-model="listQuery.companyName" placeholder="设备名称或位号" clearable></el-input>
+						<el-input v-model="listParam.equipment_name" placeholder="设备名称或位号" clearable></el-input>
 					</el-form-item>
 					<el-dropdown split-button type="primary">
 						查询
@@ -73,15 +73,34 @@
 			</el-form>
 		</div>
 
-	<!-- 表格 -->
+		<!-- 表格 -->
 		<el-table ref="multipleTable" :data="list" :height="height" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中">
-			<el-table-column type="selection" align="center" label="序号" width="55"></el-table-column>
-			<el-table-column align="center" label="名称" prop="name"></el-table-column>
-			<el-table-column align="center" label="位号	" prop="weihao"></el-table-column>
-			<el-table-column align="center" label="类别" prop="type"></el-table-column>
-			<el-table-column align="center" label="部门" prop="dept"></el-table-column>
-			<el-table-column align="center" label="状态" prop="status"></el-table-column>
-			<el-table-column align="center" label="危险有害因素" prop="danger"></el-table-column>
+			<el-table-column align="center" type="selection" width="55"></el-table-column>
+			<el-table-column align="center" label="序号" prop="No" width="55"></el-table-column>
+			<el-table-column align="center" label="名称" prop="equipment_name"></el-table-column>
+			<el-table-column align="center" label="位号" prop="tag_number">
+				<template slot-scope="scope">
+					<span v-if="scope.row.equipment_type_info.equipment_type_name">{{scope.row.equipment_type_info.equipment_type_name}}</span>
+					<span v-else>--</span>
+				</template>
+			</el-table-column>
+			<el-table-column align="center" label="类别">
+				<template slot-scope="scope">
+					<span>{{scope.row.equipment_type_info.equipment_type_name}}</span>
+				</template>
+			</el-table-column>
+			<el-table-column align="center" label="部门">
+				<template slot-scope="scope">
+					<span v-if="scope.row.equipment_department_list.department_name">{{scope.row.equipment_department_list.department_name}}</span>
+					<span v-else>--</span>
+				</template>
+			</el-table-column>
+			<el-table-column align="center" label="状态">
+				<template slot-scope="scope">
+					<span v-if="scope.row.equipment_status_info.equipment_status_name">{{scope.row.equipment_status_info.equipment_status_name}}</span>
+					<span v-else>--</span>
+				</template>
+			</el-table-column>
 			<el-table-column align="center" label="操作" width="120">
 				<template slot-scope="scope">
 					<el-button class="operation" type="text" size="small">编辑</el-button>
@@ -94,7 +113,7 @@
 		<pagination ref="page" :total="total" @reLoadData="paginationChange"></pagination>
 
 		<!-- 新增 -->
-		<el-drawer title="新增设备" :visible.sync="addDrawerVisible" :direction="direction" size="25%" :before-close="handleClose">
+		<el-drawer title="新增设备" :visible.sync="addDrawerVisible" size="25%">
 			<div class="form-box">
 				<el-form ref="form" :model="sizeForm" label-width="120px" size="mini">
 					<el-form-item label="设备名称">
@@ -131,7 +150,7 @@
 						<el-button type="text" @click="handleAddFactor"><i class="el-icon-circle-plus-outline"></i>添加危险有害因素</el-button>
 						<div class="factor-info">
 							<div class="info-list">
-								<el-checkbox v-model="checked">危险有害因素1</el-checkbox>
+								<el-checkbox>危险有害因素1</el-checkbox>
 								<el-button type="text" class="fr">删除</el-button>
 								<el-button type="text" class="fr">编辑</el-button>
 							</div>
@@ -179,7 +198,7 @@
 							<el-option label="王五" value="N"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-drawer title="危险有害因素详情" :append-to-body="true" :before-close="handleClose" :visible.sync="innerDrawer">
+					<el-drawer title="危险有害因素详情" :append-to-body="true" :visible.sync="innerDrawer">
 						<div class="form-box">
 							<p>操作不当</p>
 							<el-form ref="dangerForm" :model="dangerForm" label-width="140px" size="mini">
@@ -302,25 +321,22 @@
 	                alarm_find: false
 				},
 				height: 540,
-                list:[{
-					name: '运输车辆',
-					weihao: '6-1',
-					type: '车辆',
-					dept: '合成车间',
-					status: '正常',
-					danger: '6'
-				}], //表格list
+                list:[], //表格list
                 total: 10,
 				listLoading: false,
 				importTemVisible: false,
 				addDrawerVisible: false,
 				innerDrawer: false,
+				userInfo: null,
 				//列表查询参数
-				listQuery: {
-                    iDisplayLength: 10,
-					iDisplayStart: 0,
-					companyName: '',
-					name: '',
+				listQuery: {},
+				listParam: {
+					pagination: {
+						page : "1",
+						count : "10"
+					},
+					equipment_type_id :"",
+					equipment_name :""
 				},
 				importTemList: [{
 					value: 1,
@@ -341,10 +357,20 @@
 				isSeniorShow: false
 			}
 		},
+		beforeMount() {
+			let vm = this;
+			vm.userInfo = JSON.parse(vm.$store.getters.userInfo);
+			vm.listQuery = {
+				user_id: vm.userInfo.user_id,
+				enterprise_id: vm.userInfo.enterprise_info.enterprise_id,
+				token: vm.userInfo.token,
+				device_type: 30
+			}
+		},
 		mounted () {
-			var vm = this;
+			let vm = this;
 			vm.getPerm();
-			// vm.getList();
+			vm.getList();
 			vm.$nextTick(function(){
 				utils.getTableHeight((height)=>{
 					this.height = height;
@@ -360,19 +386,20 @@
 			//获取列表数据
 			//isBackHome 是否返回首页
 			getList(isBackHome = false) {
-                var vm = this;
+                let vm = this;
                 if (isBackHome) {
 					if (this.listQuery.iDisplayStart != 0) {
 						this.$refs.page.backFirstPage();
 						return;
 					}
 				}
+				vm.listQuery.jsonText = JSON.stringify(vm.listParam);
 				vm.listLoading = true;
-		        vm.$instance.post("/proxy/alarm/temperature/findList", vm.listQuery).then(res =>{
+		        vm.$instance.post("/proxy/Risk/Equipment/getEquipmentList", vm.listQuery).then(res =>{
 					vm.listLoading = false;
 		          	if(res.status == 200){
-                        vm.list = res.data.data;
-                        vm.total = res.data.contTotal;
+                        vm.list = res.data.data.equipment_list;
+                        vm.total = parseInt(res.data.data.paginated.total);
 		            }else{
 		                Message.error({message:"调用接口失败"});
 		            }
@@ -431,8 +458,8 @@
 			 * 分页改变，加载数据
 			 */
 			paginationChange(pageData) {
-				this.listQuery.iDisplayStart = pageData.iDisplayStart;
-				this.listQuery.iDisplayLength = pageData.iDisplayLength;
+				this.listParam.pagination.count = pageData.iDisplayLength;
+				this.listParam.pagination.page = pageData.iDisplayStart;
 				this.getList();
 			},
 			
@@ -459,60 +486,6 @@
 			}
 		}
 	}
-	.form-box {
-		padding: 0 20px 20px 10px;
-		.el-input, .el-select {
-			width: 100%;
-		}
-		.el-form-item--mini.el-form-item {
-			margin-bottom: 10px;
-		}
-		.el-drawer__header {
-			margin-bottom: 20px;
-		}
-		.form-title {
-			display: inline-block;
-			font-size: 16px;
-			border-left: 5px solid #204FFE;
-			padding-left: 10px;
-			margin-bottom: 10px;
-		}
-		.tip {
-			display: inline-block;
-			height: 15px;
-			font-size: 14px;
-			font-family: PingFang SC;
-			font-weight: 500;
-			color: #000000;
-			opacity: 0.65;
-			margin-bottom: 10px;
-		}
-		.el-alert {
-			margin-bottom: 10px;
-		}
-		.factor-info {
-			width: 100%;
-			min-height: 150px;
-			border: 1px solid #D9D9D9;
-			padding: 5px;
-			.info-list {
-				cursor: pointer;
-				&:hover {
-					background: #F2F4F6;
-					.el-button {
-						display: block;
-					}
-				}
-			}
-			.el-button {
-				padding: 0 5px;
-				margin-top: 3px;
-				display: none;
-			}
-		}
-	}
-	.el-drawer {
-		overflow-y: auto;
-	}
+	
 </style>
 

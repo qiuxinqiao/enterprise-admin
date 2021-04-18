@@ -67,7 +67,7 @@
 				},
 				height: 540,
                 list:[], //表格list
-                total: 0,
+                total: 10,
 				listLoading: false,
 				//列表查询参数
 				listQuery: {

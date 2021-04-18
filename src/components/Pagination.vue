@@ -7,8 +7,8 @@
  -->
 <template>
     <div class="pagination-container" >
-        <el-pagination v-if="total != 0"   @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currPage" :page-sizes="[10,20,30,50]" 
-        :page-size="callBackData.iDisplayLength" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        <el-pagination v-if="total != 0" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currPage" :page-sizes="[10,20,30,50]" 
+            :page-size="callBackData.iDisplayLength" layout="total, sizes, prev, pager, next, jumper" :total="total">
 	    </el-pagination>
     </div>
 </template>
@@ -22,7 +22,7 @@
             return {
                 currPage:1,
                 callBackData: {
-                    iDisplayStart: 0,
+                    iDisplayStart: 1,
                     iDisplayLength: 10
                 }
             };
@@ -63,7 +63,8 @@
 			handleCurrentChange(val) {
                 this.currPage = val;
                 //计算当前页从那条开始
-                this.callBackData.iDisplayStart = (this.currPage - 1) * this.callBackData.iDisplayLength;
+                // this.callBackData.iDisplayStart = (this.currPage - 1) * this.callBackData.iDisplayLength;
+                this.callBackData.iDisplayStart = val;
                 this.$emit('reLoadData', this.callBackData);
 			},
         }

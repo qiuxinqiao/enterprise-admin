@@ -180,31 +180,32 @@ export const utils = {
      * isGet  是否为get请求
      * @return
      */
-  exportLists(listQuery, url, isGet = false) {
-    const param = JSON.parse(JSON.stringify(listQuery));
-        // 删除分页
-    if (param.iDisplayLength) {
-      delete param.iDisplayLength;
-    }
-    if (param.iDisplayStart) {
-      delete param.iDisplayStart;
-    }
+  	exportLists(listQuery, url, isGet = false) {
+		  debugger
+		const param = JSON.parse(JSON.stringify(listQuery));
+			// 删除分页
+		if (param.iDisplayLength) {
+			delete param.iDisplayLength;
+		}
+		if (param.iDisplayStart) {
+			delete param.iDisplayStart;
+		}
 
-    let type = 'post';
-    if (isGet) {
-      type = 'get';
-    }
+		let type = 'post';
+		if (isGet) {
+			type = 'get';
+		}
 
-    const $iframe = $('<iframe id="down-file-iframe" />');
-    const $form = $('<form method="' + type + '" />');
-    $form.attr('action', url);
-    for (const key in param) {
-      $form.append('<input type="hidden" name="' + key + '" value="' + param[key] + '" />');
-    }
-    $iframe.append($form);
-    $(document.body).append($iframe);
-    $form[0].submit();
-    $iframe.remove();
+		const $iframe = $('<iframe id="down-file-iframe" />');
+		const $form = $('<form method="' + type + '" />');
+		$form.attr('action', url);
+		for (const key in param) {
+			$form.append('<input type="hidden" name="' + key + '" value="' + param[key] + '" />');
+		}
+		$iframe.append($form);
+		$(document.body).append($iframe);
+		$form[0].submit();
+		$iframe.remove();
   },
 
     /**

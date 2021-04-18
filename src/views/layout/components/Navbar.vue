@@ -26,14 +26,14 @@
 					<el-dropdown class="avatar-container right-menu-item" trigger="click">
 						<div class="avatar-wrapper">
 							<img src="../../../assets/img/login-peo.png">
-						<span v-if="userInfo.nick">{{userInfo.nick}}</span>
+						<span v-if="userInfo.user_name">{{userInfo.user_name}}</span>
 						<span v-else>管理员</span>
 						<i class="el-icon-caret-bottom"></i>
 						</div>
 						<el-dropdown-menu slot="dropdown">
-						<router-link to="/user/Personal">
+						<!-- <router-link to="/user/Personal">
 							<el-dropdown-item>个人资料</el-dropdown-item>
-						</router-link>
+						</router-link> -->
 						<el-dropdown-item>
 							<span @click="dialogFormVisible = true">修改密码</span>
 						</el-dropdown-item>

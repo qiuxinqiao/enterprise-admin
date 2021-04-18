@@ -154,22 +154,6 @@
 			}, {
 				"menuIcon": null,
 				"children": null,
-				"sortIndex": 4,
-				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
-				"menuId": "68afd2ca772f4cd88909919ec66001f3",
-				"menuName": "风险分布图",
-				"frontRouting": "/risk/riskMap"
-			}, {
-				"menuIcon": null,
-				"children": null,
-				"sortIndex": 5,
-				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
-				"menuId": "b682e1c4b5a54210b50da1bc63381111",
-				"menuName": "风险统计图",
-				"frontRouting": "/risk/riskChart"
-			}, {
-				"menuIcon": null,
-				"children": null,
 				"sortIndex": 6,
 				"menuPid": "72a098cfd218491e8a7d77fcb6875c2a",
 				"menuId": "68afd2ca772f4cd88909919ec6600112",

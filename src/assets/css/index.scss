@@ -117,7 +117,7 @@
      thead th {
          border-top: 1px solid #e4e7ea;
          background: rgba(240, 242, 245, .85);
-         border-right: none !important;
+        //  border-right: none !important;
          div {
              color: rgba(0, 0, 0, .65) !important;
              line-height: 22px !important;
@@ -494,8 +494,10 @@
      padding: 7px 18px;
  }
  .app-container .container_box_gd{
-     width: 652px;
+     width: 700px;
      margin: 0px auto;
+     overflow-y: auto;
+     overflow-x: hidden;
  }
  .app-container .form_title_box_gd{
      font-size: 16px;
@@ -1204,8 +1206,77 @@
         margin-bottom: 0;
     }
 }
+
 .form-box {
+    padding: 0 20px 20px 10px;
     .el-input, .el-select {
-        width: 100% !important;
+        width: 100%;
+    }
+    .el-form-item--mini.el-form-item {
+        margin-bottom: 10px;
+    }
+    .el-drawer__header {
+        margin-bottom: 20px;
+    }
+    .form-title {
+        display: inline-block;
+        font-size: 16px;
+        border-left: 5px solid #204FFE;
+        padding-left: 10px;
+        margin-bottom: 10px;
+    }
+    .tip {
+        display: inline-block;
+        height: 15px;
+        font-size: 14px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #000000;
+        opacity: 0.65;
+        margin-bottom: 10px;
+    }
+    .el-alert {
+        margin-bottom: 10px;
+    }
+    .factor-info {
+        width: 100%;
+        min-height: 150px;
+        border: 1px solid #D9D9D9;
+        padding: 5px;
+        .info-list {
+            cursor: pointer;
+            &:hover {
+                background: #F2F4F6;
+                .el-button {
+                    display: block;
+                }
+            }
+        }
+        .el-button {
+            padding: 0 5px;
+            margin-top: 3px;
+            display: none;
+        }
+    }
+}
+.el-drawer {
+    overflow-y: auto;
+}
+.el-table__body {
+    .el-button {
+        padding: 7px 0;
+    }
+}
+.dialog {
+    .el-input {
+        width: 100%;
+    }
+}
+.top-sel {
+    margin-bottom: 15px;
+    padding-right: 20px;
+    text-align: right;
+    .el-form-item {
+        margin-bottom: 0;
     }
 }

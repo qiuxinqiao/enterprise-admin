@@ -112,7 +112,7 @@ npm @3.10.10
 ```
 
 ## 单页面项目需要路由来进行跳转其中3-5步骤合到一个vue组件中./src/views/layout/Layout.vue参考文章：https://www.cnblogs.com/axl234/p/5899952.html
-###1：整体流程是创建组件(./src/main.js入口，判断store.getters.token没有值判断白名单是否包含，有的话直进入白名单的路由，反之进入登录页面；store.getters.token有值store的dispatch触发GetInfo的action从而调用相对应的mutations改变state。除了白名单的路由其他的component都会加载layout,也就是头部和菜单，在Sidebar组件中会将store的getter的permission_routers映射到Sidebar组件计算属性中，将该属性传递给子组件SidebarItem菜单，从而渲染菜单)
+###1：整体流程是创建组件(./src/main.js入口，判断store.getters.token没有值判断白名单是否包含，有的话直进入白名单的路由，反之进入登录页面；store.getters.token有值store的dispatch触发GetMenu的action从而调用相对应的mutations改变state。除了白名单的路由其他的component都会加载layout,也就是头部和菜单，在Sidebar组件中会将store的getter的permission_routers映射到Sidebar组件计算属性中，将该属性传递给子组件SidebarItem菜单，从而渲染菜单)
 ###2：创建路由器实例（./src/router/index.js）
 ###3：创建路由映射(./src/views/layout/Sidebar.vue   mapGetters)
 ###4：找到路由<router-link> (./src/views/layout/SidebarItem.vue)

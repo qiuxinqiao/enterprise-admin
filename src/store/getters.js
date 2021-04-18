@@ -11,6 +11,7 @@ const getters = {
     uid: state => state.user.uid, //用户id
     routerPath: state => state.user.routerPath, //路由重定向
     userInfo: state => state.user.userInfo, //用户所有信息
+    deptList: state => state.user.deptList, //所有部门信息
 
     sidebar: state => state.app.sidebar, //navbar中的点击小图标 菜单可以伸缩的
 

@@ -23,7 +23,7 @@
     <el-table
       ref="multipleTable"
       :data="list"
-      :height="height - 30"
+      :height="height"
       highlight-current-row
       @selection-change="handleSelectionChange"
       @row-click="seeDetails"
@@ -38,24 +38,24 @@
       </el-table-column>
 
       <el-table-column
-        align="left"
+        align="center"
         label="类型"
         prop="type"
         width="120"
       ></el-table-column>
-      <el-table-column align="left" label="标题" prop="title">
+      <el-table-column align="center" label="标题" prop="title">
       </el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="简介"
         prop="synopsis"
       ></el-table-column>
-      <el-table-column align="left" label="附件" width="120">
+      <el-table-column align="center" label="附件" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="mini">附件下载</el-button>
         </template>
       </el-table-column>
-      <el-table-column align="left" label="操作" width="120">
+      <el-table-column align="center" label="操作" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="mini">编辑</el-button>
           <el-divider direction="vertical"></el-divider>

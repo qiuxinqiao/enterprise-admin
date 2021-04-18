@@ -64,16 +64,28 @@ router.beforeEach((to, from, next) => {
             next();
         } else {
             //添加loading
-            // if(whiteList.indexOf(to.path) == -1 && to.path != from.path) { // 不在免登录白名单，添加loading效果
-            // 	loadingInstance = Loading.service({text:"拼命加载中",target: '.app-container',fullscreen: false,body:false});
-            // }
             //避免F5刷新时，vex数据全无，所以需要重新获取一次数据
             if (!store.getters.userInfo) { //判断是否有用户信息 把token换成userInfo
-                // console.log('未获取到用户信息', store.getters.userInfo);
-                store.dispatch('GetInfo').then(res => { // 拉取user_info
-                    // console.log('已获取到用户信息', store.getters.userInfo);
-                    // console.log('已获取到用户权限信息', store.getters.permission_perms);
-                    // console.log('已获取到用户菜单信息', store.getters.permission_routers);
+                let userInfo = JSON.parse(Cookies.get('userInfo'));
+                let deptObj = {
+                    pagination: {
+                        page : "0",
+                        count : "10"
+                    }
+                }
+                let deptParam = {
+                    user_id: userInfo.user_id,
+                    enterprise_id: userInfo.enterprise_info.enterprise_id,
+                    token: userInfo.token,
+                    device_type: 30,
+                    jsonText: JSON.stringify(deptObj)
+                }
+                instance.post('/proxy/enterprise/department/getDepartmentList', deptParam).then(data => {
+                    if(data.data.status == 1) {
+                        store.commit('SET_DEPTLIST', data.data.data.department_list); // 设置deptList
+                    }
+                })
+                store.dispatch('GetMenu').then(res => { // 拉取user_info
                     let menusArr = store.getters.permission_routers; //获取用户菜单
                     let flag = false;
                     //浏览器刷新 判断路由是否在菜单里面（有可能菜单权限进行更改）
@@ -118,7 +130,7 @@ router.beforeEach((to, from, next) => {
             //NProgress.done(); // 在hash模式下 改变手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
         }
     }
-    /*store.dispatch('GetInfo').then(res => { // 拉取user_info
+    /*store.dispatch('GetMenu').then(res => { // 拉取user_info
       console.log('已获取到用户信息',store.getters.userInfo);          
       console.log('已获取到用户权限信息',store.getters.permission_perms);          
       next(); 

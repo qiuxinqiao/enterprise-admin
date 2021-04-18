@@ -59,37 +59,37 @@
       >
       </el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="检查表名称"
         prop="name"
         class-name="text_blue"
       ></el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="检查类型	"
         width="150"
         prop="inspectionType"
       ></el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="起始日期"
         width="150"
         prop="startDate"
       ></el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="截止日期"
         width="150"
         prop="closingDate"
       ></el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="检查时段"
         width="150"
         prop="inspectionPeriod"
       ></el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="检查状态"
         width="300"
         prop="checkStatus"
@@ -101,12 +101,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        align="left"
+        align="center"
         label="已落实"
         width="100"
         prop="implemented"
       ></el-table-column>
-      <el-table-column align="left" label="操作" width="200">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="mini" @click="goToEdit(scope.row)"
             >编辑</el-button

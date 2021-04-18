@@ -38,7 +38,7 @@ module.exports = {
         proxyTable: {
             '/proxy': {
                 // target: 'http://192.168.2.6:8080',  // 白
-                target: 'http://192.168.1.7:8086',  // 斌
+                target: 'http://39.100.112.87:8201/Api_Enterprise',  // 斌
                 // target: 'http://154.8.213.124/proxy',
                 changeOrigin: true, //允许跨域
                 //将对资源的请求重定向到另一路径

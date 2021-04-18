@@ -16,68 +16,36 @@
     </div>
 
     <!-- 表格 -->
-    <el-table
-      ref="multipleTable"
-      :data="list"
-      :height="height"
-      highlight-current-row
-      v-loading="listLoading"
-      element-loading-text="拼命加载中"
-      @selection-change="handleSelectionChange"
-    >
-      <el-table-column type="selection" align="center" width="55">
-      </el-table-column>
-      <el-table-column
-        type="index"
-        align="center"
-        label="序号"
-        width="80"
-        :index="indexMethod"
-      >
-      </el-table-column>
-
-      <el-table-column
-        align="center"
-        label="资料档案"
-        prop="dataFiles"
-      ></el-table-column>
-      <el-table-column align="center" label="备注信息" prop="Remarks">
-      </el-table-column>
-      <el-table-column
-        prop="wxinfo"
-        label="资质图片"
-        width="200"
-        align="center"
-        :show-overflow-tooltip="true"
-      >
-        <template slot-scope="scope">
-          <img :src="item.url" v-for="(item, index) in scope.row.commentUrl" :key="index" height="90%" class="touxiang" />
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        label="更新时间"
-        prop="updateTime"
-      ></el-table-column>
-      <el-table-column align="center" label="操作" width="120">
-        <template slot-scope="scope">
-          <el-button type="text" size="small">编辑</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+	<el-table ref="multipleTable" :data="list" :height="height" border fit highlight-current-row v-loading="listLoading" element-loading-text="拼命加载中">
+			<el-table-column align="center" type="selection" width="55"></el-table-column>
+			<el-table-column align="center" label="资质证书名称" prop="qua_arc_name"></el-table-column>
+			<el-table-column align="center" label="资质证书备注" prop="qua_arc_remark"></el-table-column>
+			<el-table-column align="center" label="资质证书图片">
+				<template slot-scope="scope">
+					<template v-if="scope.row.qua_arc_image_list.length > 0">
+						<span v-for="(item, index) in scope.row.qua_arc_image_list" :key="index">
+							<img class="qua-img" :src="item.path" :preview='scope.row.qua_arc_id'>
+						</span>
+					</template>
+					<span v-else>--</span>
+				</template>
+			</el-table-column>
+			<el-table-column align="center" label="操作" width="120">
+				<template slot-scope="scope">
+					<el-button class="operation" type="text" size="small">编辑</el-button>
+					<el-button class="operation" type="text" size="small" @click.native="handleDelete(scope.$index, scope.row)">删除</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
 
     <!-- 分页 -->
-    <pagination
-      ref="page"
-      :total="total"
-      @reLoadData="paginationChange"
-    ></pagination>
+    <pagination ref="page" :total="total" @reLoadData="paginationChange"></pagination>
+
     <!-- 添加资质档案 开始 -->
     <el-dialog
       title="添加资质档案"
       :visible.sync="dataFilesDialog"
       width="30%"
-      :before-close="handleClose"
     >
       <el-form :model="form" label-position="top">
         <el-form-item label="名称">
@@ -127,306 +95,157 @@
 import { utils } from "src/utils";
 import { validate } from "utils/validate";
 import { Message } from "element-ui";
-// import DatePicker from "../../components/DatePicker"; //日期组件
 import Pagination from "../../components/Pagination";
 export default {
-  components: {
-    // "date-picker": DatePicker, //日期组件
-    pagination: Pagination,
-  },
-  data() {
-    return {
-      dataFilesDialog: false,
-      permBtn: {
-        alarm_find: false,
-      },
-      height: 640,
-      list: [
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
+	components: {
+		Pagination
+	},
+	data() {
+		return {
+			dataFilesDialog: false,
+			dialogVisible: false,
+			permBtn: {
+				alarm_find: false,
+			},
+			height: 640,
+			list: [
+			], //表格list
+			form: {
+				name: "",
+				remarks:'',
+				dialogImageUrl:'',
+			},
+			total: 20,
+			listLoading: false,
+			userInfo: null,
+			//列表查询参数
+			listQuery: {},
+			listParam: {
+				pagination: {
+					page : "1",
+					count : "10"
+				}
+			}
+		};
+	},
+	beforeMount() {
+		let vm = this;
+		vm.userInfo = JSON.parse(vm.$store.getters.userInfo);
+		vm.listQuery = {
+			user_id: vm.userInfo.user_id,
+			enterprise_id: vm.userInfo.enterprise_info.enterprise_id,
+			token: vm.userInfo.token,
+			device_type: 30
+		}
+	},
+  	mounted() {
+		let vm = this;
+		vm.getPerm();
+		vm.getList();
+		vm.$nextTick(function () {
+			utils.getTableHeight((height) => {
+				this.height = height;
+			});
+		});
+  	},
+  	methods: {
+		//删除/上传成功方法
+		handleRemove(file, fileList) {
+			console.log(file, fileList);
+		},
+		handlePictureCardPreview(file) {
+			this.dialogImageUrl = file.url;
+			this.dialogVisible = true;
+		},
+		// ==========
+		handleSelectionChange(val) {
+			this.multipleSelection = val;
+		},
+		indexMethod(index) {
+			return index + 1;
+		},
+		//获取当前页面的权限
+		getPerm() {
+			this.permBtn = utils.permsButton(this);
+		},
 
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
+		//获取列表数据
+		//isBackHome 是否返回首页
+		getList(isBackHome = false) {
+			let vm = this;
+			if (isBackHome) {
+				if (this.listQuery.iDisplayStart != 0) {
+					this.$refs.page.backFirstPage();
+					return;
+				}
+			}
+			let param = JSON.parse(JSON.stringify(vm.listQuery));
+			param.jsonText = JSON.stringify(vm.listParam);
+			vm.listLoading = true;
+			vm.$instance.post("/proxy/Enterprise/Archives/getArchivesList", param).then((res) => {
+				vm.listLoading = false;
+				if(res.status == 200){
+					vm.list = res.data.data.archives_list;
+					vm.total = parseInt(res.data.data.paginated.total);
+				}else{
+					Message.error({message:"调用接口失败"});
+				}
+			}).catch((error) => {
+				vm.listLoading = false;
+			});
+		},
 
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
+		//删除资质档案
+		handleDelete(index, row) {
+			let vm = this;
+			let param = JSON.parse(JSON.stringify(vm.listQuery));
+			let idArr = [row.qua_arc_id];
+			let obj = {
+				qua_arc_id_list: idArr
+			}
+			param.jsonText = JSON.stringify(obj);
+			//确定删除
+			this.$confirm('确定删除么？', '删除', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				//调用接口
+				vm.$instance.post("/proxy/Enterprise/Archives/delArchivesInfo", param).then(res =>{
+					if(res.status == 200){
+						if (res.data.status == '1') {
+							Message.success({message: '删除成功！'});
+							vm.$refs.page.deleteItemReLoadList();
+						} else {
+							Message.error({message: res.data.msg});
+						}
+					}else{
+						Message.error({message:"调用接口失败"});
+					}
+				}).catch(error => {
+					
+				});
+			}).catch(() => {
+				Message.info({message: '已取消删除'});          
+			});
+		},
 
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-        {
-          dataFiles: "石油化工工程施工总承包一级资质",
-          Remarks:
-            "1.注册资本不低于2000万元; 2.从事房地产开发经营3年以上; 3.近3",
-          picture: "上海市普陀区金沙江路 1518 弄",
-
-          commentUrl: [
-            {
-              url: "../../assets/img/none.png",
-            },
-            {
-              url: "../../assets/img/none.png",
-            },
-          ],
-          updateTime: "2020-09-11 14:20:21",
-        },
-      ], //表格list
-      form: {
-        name: "",
-        remarks:'',
-        dialogImageUrl:'',
-      },
-      total: 20,
-      listLoading: false,
-      //列表查询参数
-      listQuery: {
-        iDisplayLength: 10,
-        iDisplayStart: 0,
-        companyName: "",
-        name: "",
-      },
-      isToday: false, //是否回显当前日期
-    };
-  },
-  mounted() {
-    var vm = this;
-    vm.getPerm();
-    // vm.getList();
-    vm.$nextTick(function () {
-      utils.getTableHeight((height) => {
-        this.height = height;
-      });
-    });
-  },
-  methods: {
-     //   删除/上传成功方法
-     handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-      // ==========
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    indexMethod(index) {
-      return index + 1;
-    },
-    //获取当前页面的权限
-    getPerm() {
-      this.permBtn = utils.permsButton(this);
-    },
-
-    //获取列表数据
-    //isBackHome 是否返回首页
-    getList(isBackHome = false) {
-      var vm = this;
-      if (isBackHome) {
-        if (this.listQuery.iDisplayStart != 0) {
-          this.$refs.page.backFirstPage();
-          return;
-        }
-      }
-      vm.listLoading = true;
-      vm.listQuery.fromTime = "";
-      vm.listQuery.toTime = "";
-      //   const dateTime = vm.$refs.datePicker.datePicker; //父组件获取子组件数据this.$refs.第一个datePicker是父组件ref值，第二个是子组件model值
-      //   if (dateTime) {
-      //     vm.listQuery.fromTime = dateTime[0] + " 00:00:00";
-      //     vm.listQuery.toTime = dateTime[1] + " 23:59:59";
-      //   }
-      vm.$instance
-        .post("/proxy/alarm/temperature/findList", vm.listQuery)
-        .then((res) => {
-          vm.listLoading = false;
-          if (res.status == 200) {
-            vm.list = res.data.data;
-            vm.total = res.data.contTotal;
-          } else {
-            Message.error({ message: "调用接口失败" });
-          }
-        })
-        .catch((error) => {
-          vm.listLoading = false;
-        });
-    },
-
-    /**
-     * 分页改变，加载数据
-     */
-    paginationChange(pageData) {
-      this.listQuery.iDisplayStart = pageData.iDisplayStart;
-      this.listQuery.iDisplayLength = pageData.iDisplayLength;
-      this.getList();
-    },
-  },
+		/**
+		 * 分页改变，加载数据
+		 */
+		paginationChange(pageData) {
+			this.listParam.pagination.count = pageData.iDisplayLength;
+			this.listParam.pagination.page = pageData.iDisplayStart;
+			this.getList();
+		},
+	},
 };
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>
+	.qua-img {
+		width: 60px;
+		height: 60px;
+		margin: 0 3px;
+		cursor: pointer;
+	}
 </style>

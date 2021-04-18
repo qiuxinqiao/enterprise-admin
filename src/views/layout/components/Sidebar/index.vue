@@ -48,12 +48,12 @@ export default {
     text-align: center;
     border-bottom: 1px solid #1e2b3b;
     div{
-		width: 70%;
-		margin: 0 auto;
+      width: 70%;
+      margin: 0 auto;
 		img{
         transition: 0.28s;
-        height: 60px;
-        margin-top: 10px;
+        height: 40px;
+        margin-top: 20px;
 			}
     }
     p{
